@@ -1,0 +1,2 @@
+# chckitbot
+Telegram dictionary
