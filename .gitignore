@@ -1,6 +1,0 @@
-.env
-.vs/*
-node_modules/*
-dictionaries/MEPD.mdx
-dictionaries/MBD.mdx
-.gitignore
