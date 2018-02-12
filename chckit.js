@@ -8,7 +8,7 @@ bot.on('text', msg => {
 	let id = msg.from.id;
 	let text = msg.text;
 
-	mdict.dictionary('dictionaries/MEPD.mdx').then(function(dictionary){
+	mdict.dictionary('dictionaries/MBD.mdx').then(function(dictionary){
 	//// dictionary is loaded 
 	dictionary.search({
 		phrase: text, /// '*' and '?' supported 
