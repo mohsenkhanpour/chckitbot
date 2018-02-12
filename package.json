@@ -1,11 +1,31 @@
 {
   "name": "chckitbot",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Telegram dictionary",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
-  "license": "ISC"
+  "author": "mohsenkhanpour",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^5.0.0",
+    "js-mdict": "^1.0.1",
+    "telebot": "^1.2.3"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mohsenkhanpour/chckitbot.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mohsenkhanpour/chckitbot/issues"
+  },
+  "homepage": "https://github.com/mohsenkhanpour/chckitbot#readme",
+  "keywords": [
+    "telegram",
+    "bot",
+    "dictionary",
+    "mdict"
+  ]
 }

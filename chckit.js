@@ -1,47 +1,41 @@
 require('dotenv').config();
-var mdict = require("./index.js");
+var mdict = require('mdict');
+var sanitizeHtml = require('sanitize-html');
 const TeleBot = require('telebot');
 const bot = new TeleBot(process.env.BOT_TOKEN);
 
-var request = require("request");
+bot.on('text', msg => {
+	let id = msg.from.id;
+	let text = msg.text;
 
-	bot.on('text', msg => {
-	    let id = msg.from.id;
-	    let text = msg.text;
-        
-        
-        (function(){
-            mdict("./testdict/ETDict.mdx").search(text).then(function(defination){
-                   console.log(defination);
-            });
-        })();
+	mdict.dictionary('dictionaries/MEPD.mdx').then(function(dictionary){
+	//// dictionary is loaded 
+	dictionary.search({
+		phrase: text, /// '*' and '?' supported 
+		max: 10	          /// maximum results 
+	 }).then(function(foundWords){
+		console.log('Found words:');
+		console.log(foundWords);      /// foundWords is array 
 
-/*		var options = { method: 'GET',
-//  url: 'http://corpus.vocabulary.com/api/1.0/examples.json',
- qs: { query: text, 
-	    maxResults: '5', 
-	    domain: '' },
- json: true};
-		request(options, function (error, response, body) {
-  if (body.result.totalHits == 0)
-  {return bot.sendMessage(id, "No example found. Try a new word.");
-  }
-  
-  else{
-	
- 	let Ex00 = body.result.sentences[0].sentence
-	let Ex01 = body.result.sentences[1].sentence
-	let Ex02 = body.result.sentences[2].sentence
-	let Ex03 = body.result.sentences[3].sentence
-	let Ex04 = body.result.sentences[4].sentence
-  
-    console.log(Ex01);
-	let replyToMessage = msg.message_id;
-    let parseMode = 'html';
-    return bot.sendMessage(id, `👉 ${ Ex00 } \n 👉 ${ Ex01 } \n 👉 ${ Ex02 } \n 👉 ${ Ex03 } \n 👉 ${ Ex04 }`, {replyToMessage, parseMode});}
+		var word = ''+foundWords[0];
+		console.log('Loading definitions for: '+word);
+		return dictionary.lookup(word); /// typeof word === string 
+	}).then(function(definitions){
+		console.log('definitions:');     /// definition is array 
+		console.log(definitions[0]);
+
+		var dirty = definitions[0];
+		var clean = sanitizeHtml(dirty,{
+			allowedTags: ['b','i'],
+			allowedAttributes: []
+		});
+
+		let replyToMessage = msg.message_id;
+		let parseMode = 'html';
+		return bot.sendMessage(id,clean, {replyToMessage, parseMode})
 	});
-		
-});
-
 	
-*/bot.start(); });
+}); 
+;}
+);
+bot.start();
